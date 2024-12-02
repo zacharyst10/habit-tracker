@@ -1,6 +1,6 @@
 "use client";
 
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import { Apple, Book, Code2, Dumbbell, Home, Languages } from "lucide-react";
 
 import {
   Sidebar,
@@ -15,7 +15,6 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-// Menu items.
 const items = [
   {
     title: "Home",
@@ -23,24 +22,29 @@ const items = [
     icon: Home,
   },
   {
-    title: "Inbox",
-    url: "/inbox",
-    icon: Inbox,
+    title: "Exercise",
+    url: "/exercise",
+    icon: Dumbbell,
   },
   {
-    title: "Calendar",
-    url: "/calendar",
-    icon: Calendar,
+    title: "JS Mastery",
+    url: "/js-mastery",
+    icon: Code2,
   },
   {
-    title: "Search",
-    url: "/search",
-    icon: Search,
+    title: "Food Prep",
+    url: "/food-prep",
+    icon: Apple,
   },
   {
-    title: "Settings",
-    url: "/settings",
-    icon: Settings,
+    title: "Finnish Study",
+    url: "/finnish-study",
+    icon: Languages,
+  },
+  {
+    title: "Book Corner",
+    url: "/book-corner",
+    icon: Book,
   },
 ];
 
