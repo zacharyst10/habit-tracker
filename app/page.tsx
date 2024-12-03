@@ -1,264 +1,379 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Plus, CalendarDays } from "lucide-react";
-
-interface MealItem {
-  image: string;
-  calories: number;
-}
-
-interface Meal {
-  name: string;
-  timeSlot: string;
-  items: MealItem[];
-  totalCalories: number;
-}
-
-const meals: Meal[] = [
-  {
-    name: "Breakfast",
-    timeSlot: "05.00 am - 07.00 am",
-    items: [
-      { image: "/placeholder.svg?height=60&width=60", calories: 250 },
-      { image: "/placeholder.svg?height=60&width=60", calories: 10 },
-      { image: "/placeholder.svg?height=60&width=60", calories: 120 },
-    ],
-    totalCalories: 380,
-  },
-  {
-    name: "Lunch",
-    timeSlot: "12.30 pm - 01.00 pm",
-    items: [
-      { image: "/placeholder.svg?height=60&width=60", calories: 350 },
-      { image: "/placeholder.svg?height=60&width=60", calories: 10 },
-      { image: "/placeholder.svg?height=60&width=60", calories: 120 },
-    ],
-    totalCalories: 420,
-  },
-  {
-    name: "Dinner",
-    timeSlot: "06.00 pm - 08.00 pm",
-    items: [
-      { image: "/placeholder.svg?height=60&width=60", calories: 100 },
-      { image: "/placeholder.svg?height=60&width=60", calories: 120 },
-    ],
-    totalCalories: 220,
-  },
-];
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Plus, ChevronDown, Bell, Search } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="text-3xl font-bold grid grid-cols-3 pt-10">
-      <div className="col-span-1 ">
-        <div className="pb-10 ">Exercise (The Road)</div>
-        <Card className="w-[450px] bg-black text-center">
-          <CardHeader>
-            <CardTitle className="text-white">
-              You gained 2kg in a month keep it up
-            </CardTitle>
-            <CardDescription className="text-3xl pt-10 text-white">
-              200g of protein
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form>
-              <div className="grid w-full items-center gap-4">
-                <div className="flex flex-col space-y-1.5"></div>
-                <div className="flex flex-col space-y-1.5"></div>
-              </div>
-            </form>
-          </CardContent>
-          <CardFooter className="flex justify-between">
-            <Progress className="" value={50} max={200} />
-          </CardFooter>
-        </Card>
-      </div>
-      <div className="col-span-1">
-        <div>JS Mastery</div>
-        <div className="grid grid-cols-2 gap-5">
-          <Card>
-            <CardHeader>js concept 1</CardHeader>
-            <CardContent className=" text-sm">
-              this is the content of the card
-              <CardDescription>
-                this is the description of the card
-              </CardDescription>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>js concept 2</CardHeader>
-            <CardContent className=" text-sm">
-              this is the content of the card
-              <CardDescription>
-                this is the description of the card
-              </CardDescription>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>js concept 3</CardHeader>
-            <CardContent className=" text-sm">
-              this is the content of the card
-              <CardDescription>
-                this is the description of the card
-              </CardDescription>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>js concept 4</CardHeader>
-            <CardContent className=" text-sm">
-              this is the content of the card
-              <CardDescription>
-                this is the description of the card
-              </CardDescription>
-            </CardContent>
-          </Card>
+    <div className="p-4 md:p-6">
+      <header className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-2">
+          <Avatar className="h-12 w-12">
+            <AvatarImage alt="User avatar" src="/placeholder.svg" />
+            <AvatarFallback>JW</AvatarFallback>
+          </Avatar>
+          <div className="flex items-center gap-2">
+            <h1 className="text-xl font-semibold">Jenny Wilson</h1>
+            <Button variant="ghost" size="icon">
+              <ChevronDown className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
-      </div>
-      <div className=" p-4">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">My Meal Plan</h1>
-          <Button
-            size="icon"
-            variant="outline"
-            className="rounded-full bg-[#e6ff00] hover:bg-[#d1e600]"
-          >
-            <Plus className="h-6 w-6" />
+        <div className="flex items-center gap-4">
+          <Button variant="ghost" size="icon">
+            <Bell className="h-5 w-5" />
+          </Button>
+          <Button variant="ghost" size="icon">
+            <Search className="h-5 w-5" />
           </Button>
         </div>
+      </header>
 
-        <Button variant="outline" className="w-full justify-between mb-6">
-          <div className="flex items-center gap-2">
-            <CalendarDays className="h-5 w-5" />
-            <span>Sat, 09 September 2023</span>
-          </div>
-          <svg
-            className=" h-4 w-4"
-            width="15"
-            height="15"
-            viewBox="0 0 15 15"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M4.18179 6.18181C4.35753 6.00608 4.64245 6.00608 4.81819 6.18181L7.49999 8.86362L10.1818 6.18181C10.3575 6.00608 10.6424 6.00608 10.8182 6.18181C10.9939 6.35755 10.9939 6.64247 10.8182 6.81821L7.81819 9.81821C7.64245 9.99395 7.35753 9.99395 7.18179 9.81821L4.18179 6.81821C4.00605 6.64247 4.00605 6.35755 4.18179 6.18181Z"
-              fill="currentColor"
-              fillRule="evenodd"
-              clipRule="evenodd"
-            ></path>
-          </svg>
-        </Button>
-
-        <div className="space-y-4">
-          {meals.map((meal, index) => (
-            <Card key={index} className="shadow-sm">
-              <CardContent className="p-4">
-                <div className="flex justify-between items-start mb-4">
-                  <h2 className="text-xl font-bold">{meal.name}</h2>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-muted-foreground">
-                      {meal.timeSlot}
-                    </span>
+      <div className="flex flex-col lg:flex-row gap-6">
+        <div className="lg:w-2/3 space-y-6">
+          <div className="flex flex-col md:flex-row gap-6">
+            <Card className="flex-1">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-semibold">Body Overview</h2>
+                  <Select defaultValue="monthly">
+                    <SelectTrigger className="w-[120px]">
+                      <SelectValue placeholder="Select view" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="daily">Daily</SelectItem>
+                      <SelectItem value="weekly">Weekly</SelectItem>
+                      <SelectItem value="monthly">Monthly</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="bg-black text-white rounded-lg p-6">
+                  <div className="text-center mb-6">
+                    <p className="text-lg">
+                      You&apos;ve gain <span className="font-bold">2kg</span> in
+                      a month keep it up!
+                    </p>
+                    <p className="text-gray-400">Still need to gain</p>
+                    <p className="text-4xl font-bold mt-2">950 kcal</p>
                   </div>
-                </div>
-
-                <div className="flex items-center gap-2 mb-4">
-                  {meal.items.map((item, itemIndex) => (
-                    <div key={itemIndex} className="relative">
-                      <div className="w-[60px] h-[60px] rounded-full overflow-hidden">
-                        <img
-                          src={item.image}
-                          alt="Food item"
-                          className="w-full h-full object-cover"
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="text-center">
+                      <div className="relative w-20 h-20 mx-auto">
+                        <Progress
+                          value={35}
+                          className="h-20 w-20 rotate-180"
+                          indicatorColor="bg-[#98FF98]"
                         />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span>35%</span>
+                        </div>
                       </div>
-                      <span className="text-xs text-muted-foreground block text-center mt-1">
-                        {item.calories} kcal
-                      </span>
+                      <p className="mt-2 text-sm">Protein</p>
                     </div>
-                  ))}
-                  <Button
-                    size="icon"
-                    variant="outline"
-                    className="w-[60px] h-[60px] rounded-full"
-                  >
-                    <Plus className="h-4 w-4" />
-                  </Button>
-                </div>
-
-                <div className="flex justify-end">
-                  <span className="text-2xl font-bold">
-                    {meal.totalCalories} kcal
-                  </span>
+                    <div className="text-center">
+                      <div className="relative w-20 h-20 mx-auto">
+                        <Progress
+                          value={65}
+                          className="h-20 w-20 rotate-180"
+                          indicatorColor="bg-[#FFD700]"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span>65%</span>
+                        </div>
+                      </div>
+                      <p className="mt-2 text-sm">Carbo</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="relative w-20 h-20 mx-auto">
+                        <Progress
+                          value={65}
+                          className="h-20 w-20 rotate-180"
+                          indicatorColor="bg-[#FF6B6B]"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span>65%</span>
+                        </div>
+                      </div>
+                      <p className="mt-2 text-sm">Fat</p>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
-          ))}
+            <Card className="flex-1">
+              <CardContent className="p-6">
+                <h2 className="text-2xl font-semibold mb-6">My Daily Target</h2>
+                <div className="grid grid-cols-2 gap-4">
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="p-2 bg-blue-100 rounded-lg">
+                          <div className="w-6 h-6 text-blue-500">💧</div>
+                        </div>
+                        <h3 className="font-semibold">Water</h3>
+                      </div>
+                      <p className="text-sm text-gray-500">Total Cons</p>
+                      <p className="text-xl font-bold">2300 ml</p>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="p-2 bg-orange-100 rounded-lg">
+                          <div className="w-6 h-6 text-orange-500">🔥</div>
+                        </div>
+                        <h3 className="font-semibold">Calories</h3>
+                      </div>
+                      <p className="text-sm text-gray-500">Total Cons</p>
+                      <p className="text-xl font-bold">890 kCal</p>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="p-2 bg-orange-100 rounded-lg">
+                          <div className="w-6 h-6 text-orange-500">⚖️</div>
+                        </div>
+                        <h3 className="font-semibold">Weight</h3>
+                      </div>
+                      <p className="text-sm text-gray-500">My Weight</p>
+                      <p className="text-xl font-bold">62 Kg</p>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="p-2 bg-red-100 rounded-lg">
+                          <div className="w-6 h-6 text-red-500">❤️</div>
+                        </div>
+                        <h3 className="font-semibold">BPM</h3>
+                      </div>
+                      <p className="text-sm text-gray-500">My Weight</p>
+                      <p className="text-xl font-bold">110 BPM</p>
+                    </CardContent>
+                  </Card>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+          <Card>
+            <CardContent className="p-6">
+              <h2 className="text-2xl font-semibold mb-6">New Activity</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Card className="bg-[#DCFCE7]">
+                  <CardContent className="p-4 flex items-center justify-between">
+                    <div>
+                      <h3 className="font-semibold text-lg mb-1">
+                        Drinking Tracker
+                      </h3>
+                      <p className="text-sm">
+                        Stay hydrated, it&apos;s nature&apos;s best refreshment!
+                      </p>
+                    </div>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="rounded-full"
+                    >
+                      <ChevronDown className="h-6 w-6" />
+                    </Button>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-4 flex items-center justify-between">
+                    <div>
+                      <h3 className="font-semibold text-lg mb-1">
+                        Daily Exercise
+                      </h3>
+                      <p className="text-sm">
+                        Stay active, it&apos;s key to good health!
+                      </p>
+                    </div>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="rounded-full"
+                    >
+                      <ChevronDown className="h-6 w-6" />
+                    </Button>
+                  </CardContent>
+                </Card>
+                <Card className="bg-[#262626] text-white">
+                  <CardContent className="p-4 flex items-center justify-between">
+                    <div>
+                      <h3 className="font-semibold text-lg mb-1">
+                        Sleep Tracker
+                      </h3>
+                      <p className="text-sm">
+                        Good sleep is crucial for health!
+                      </p>
+                    </div>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="rounded-full text-white"
+                    >
+                      <ChevronDown className="h-6 w-6" />
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+            </CardContent>
+          </Card>
         </div>
-
-        <Card className="mt-6">
-          <CardContent className="p-4">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold">Calories Analysis</h2>
-              <Button variant="link" className="text-muted-foreground">
-                See Detail
-              </Button>
-            </div>
-
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Carbo</span>
-                  <span>43.5%</span>
+        <div className="lg:w-1/3">
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-semibold">My Meal Plan</h2>
+                <div className="flex items-center gap-2">
+                  <p className="text-sm">Sat, 09 September 2023</p>
+                  <Button variant="ghost" size="icon">
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
                 </div>
-                <Progress
-                  value={43.5}
-                  className="bg-gray-200 h-2 [&>div]:bg-[#FFB572]"
-                />
               </div>
-
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Fat</span>
-                  <span>27.5%</span>
+              <div className="space-y-4">
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="font-semibold">Breakfast</h3>
+                        <p className="text-sm text-gray-500">
+                          05.00 am - 07.00 am
+                        </p>
+                      </div>
+                      <p className="font-semibold">380 kcal</p>
+                    </div>
+                    <div className="flex items-center gap-2 mt-4">
+                      <Avatar className="h-12 w-12">
+                        <AvatarImage alt="Meal 1" src="/placeholder.svg" />
+                        <AvatarFallback>M1</AvatarFallback>
+                      </Avatar>
+                      <Avatar className="h-12 w-12">
+                        <AvatarImage alt="Meal 2" src="/placeholder.svg" />
+                        <AvatarFallback>M2</AvatarFallback>
+                      </Avatar>
+                      <Button size="icon" variant="outline">
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="font-semibold">Lunch</h3>
+                        <p className="text-sm text-gray-500">
+                          12.30 pm - 01.00 pm
+                        </p>
+                      </div>
+                      <p className="font-semibold">420 kcal</p>
+                    </div>
+                    <div className="flex items-center gap-2 mt-4">
+                      <Avatar className="h-12 w-12">
+                        <AvatarImage alt="Meal 1" src="/placeholder.svg" />
+                        <AvatarFallback>M1</AvatarFallback>
+                      </Avatar>
+                      <Avatar className="h-12 w-12">
+                        <AvatarImage alt="Meal 2" src="/placeholder.svg" />
+                        <AvatarFallback>M2</AvatarFallback>
+                      </Avatar>
+                      <Button size="icon" variant="outline">
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="font-semibold">Dinner</h3>
+                        <p className="text-sm text-gray-500">
+                          06.00 pm - 08.00 pm
+                        </p>
+                      </div>
+                      <p className="font-semibold">220 kcal</p>
+                    </div>
+                    <div className="flex items-center gap-2 mt-4">
+                      <Avatar className="h-12 w-12">
+                        <AvatarImage alt="Meal 1" src="/placeholder.svg" />
+                        <AvatarFallback>M1</AvatarFallback>
+                      </Avatar>
+                      <Button size="icon" variant="outline">
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+              <div className="mt-6 space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-semibold">Calories Analysis</h3>
+                  <Button variant="link" className="text-sm">
+                    See Detail
+                  </Button>
                 </div>
-                <Progress
-                  value={27.5}
-                  className="bg-gray-200 h-2 [&>div]:bg-[#FF8A8A]"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Protein</span>
-                  <span>73.1%</span>
+                <div className="space-y-3">
+                  <div>
+                    <div className="flex justify-between mb-1">
+                      <span className="text-sm">Carbo</span>
+                      <span className="text-sm">43.5%</span>
+                    </div>
+                    <Progress
+                      value={43.5}
+                      className="h-2"
+                      indicatorColor="bg-orange-500"
+                    />
+                  </div>
+                  <div>
+                    <div className="flex justify-between mb-1">
+                      <span className="text-sm">Fat</span>
+                      <span className="text-sm">27.5%</span>
+                    </div>
+                    <Progress
+                      value={27.5}
+                      className="h-2"
+                      indicatorColor="bg-red-500"
+                    />
+                  </div>
+                  <div>
+                    <div className="flex justify-between mb-1">
+                      <span className="text-sm">Protein</span>
+                      <span className="text-sm">73.1%</span>
+                    </div>
+                    <Progress
+                      value={73.1}
+                      className="h-2"
+                      indicatorColor="bg-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <div className="flex justify-between mb-1">
+                      <span className="text-sm">Fiber</span>
+                      <span className="text-sm">52.5%</span>
+                    </div>
+                    <Progress
+                      value={52.5}
+                      className="h-2"
+                      indicatorColor="bg-green-500"
+                    />
+                  </div>
                 </div>
-                <Progress
-                  value={73.1}
-                  className="bg-gray-200 h-2 [&>div]:bg-[#4A7AFF]"
-                />
               </div>
-
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Fiber</span>
-                  <span>52.5%</span>
-                </div>
-                <Progress
-                  value={52.5}
-                  className="bg-gray-200 h-2 [&>div]:bg-[#65D390]"
-                />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );
