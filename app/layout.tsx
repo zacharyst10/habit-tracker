@@ -33,7 +33,7 @@ export default function RootLayout({
         <SidebarProvider>
           <AppSidebar />
           <SidebarTrigger />
-          <div className="flex bg-gray-200 p-4 m-4 w-full flex-col rounded-2xl max-h-[calc(100vh-2rem)]">
+          <div className="flex bg-gray-100 p-4 m-4 w-full flex-col rounded-2xl max-h-[calc(100vh-2rem)]">
             <div className="flex  w-full flex-col">
               <div className="flex  w-full flex-col">{children}</div>
             </div>
