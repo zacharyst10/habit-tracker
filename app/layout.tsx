@@ -32,8 +32,8 @@ export default function RootLayout({
       >
         <SidebarProvider>
           <AppSidebar />
-          <div className="flex-1 overflow-auto">
-            <SidebarTrigger className="absolute top-4 left-4 z-50" />
+          <div className="flex-1 overflow-auto bg-muted rounded-2xl m-4">
+            <SidebarTrigger className="absolute z-50" />
             {children}
           </div>
         </SidebarProvider>

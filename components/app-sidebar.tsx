@@ -51,20 +51,20 @@ const items = [
 export function AppSidebar() {
   const currentPath = usePathname();
   return (
-    <Sidebar variant="floating" collapsible="icon">
-      <SidebarContent>
+    <Sidebar variant="floating" collapsible="icon" className="border-none">
+      <SidebarContent className=" bg-black  rounded-2xl">
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-white">2025</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem className="text-white" key={item.title}>
                   <SidebarMenuButton
                     asChild
                     isActive={currentPath === item.url}
                   >
                     <Link href={item.url}>
-                      <item.icon />
+                      <item.icon className="w-10 h-10" />
                       <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
