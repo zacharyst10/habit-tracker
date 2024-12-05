@@ -25,6 +25,7 @@ import {
   Coffee,
 } from "lucide-react";
 import Link from "next/link";
+import { neon } from "@neondatabase/serverless";
 
 export default function Home() {
   return (
