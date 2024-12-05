@@ -1,11 +1,7 @@
 "use client";
-import { useState } from "react";
-import { Button } from "./ui/button";
-import { createProteinGoalAction } from "@/actions/protein";
 
 export function ProteinGoalDisplay({ currentGoal }: { currentGoal: number }) {
-  const [newGoal, setNewGoal] = useState("");
-
+  //   const [newGoal, setNewGoal] = useState("");
   //   return (
   //     <div>
   //       <div>Current Protein Goal: {currentGoal}g</div>

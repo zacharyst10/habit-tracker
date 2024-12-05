@@ -1,5 +1,3 @@
-import { getCurrentProteinGoal } from "@/actions/protein";
-import { ProteinGoalDisplay } from "@/components/protein-goal";
 import { Suspense } from "react";
 
 export default async function FoodPrep() {
