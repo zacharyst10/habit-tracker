@@ -1,3 +1,5 @@
+import { getCurrentProteinGoal, getTodayTotal } from "@/actions/protein";
+import { ProteinProgress } from "@/components/protein-progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -26,7 +28,9 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+  const currentGoal = await getCurrentProteinGoal();
+  const todayTotal = await getTodayTotal();
   return (
     <div className="p-4 md:p-6 ">
       <header className="flex items-center justify-between mb-8">
@@ -404,14 +408,10 @@ export default function Home() {
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div>
-                    <div className="flex justify-between mb-1">
-                      <span className="text-sm">Protein</span>
-                      <span className="text-sm">73.1%</span>
-                    </div>
-                    <Progress
-                      value={73.1}
-                      className="h-2"
-                      indicatorColor="bg-blue-500"
+                    <div className="flex justify-between mb-1"></div>
+                    <ProteinProgress
+                      currentAmount={todayTotal}
+                      goalAmount={currentGoal}
                     />
                   </div>
                   <div>
