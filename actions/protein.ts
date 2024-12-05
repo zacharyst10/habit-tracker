@@ -1,9 +1,8 @@
 "use server";
 import { neon } from "@neondatabase/serverless";
 
-// Note the prevState parameter is added
 export async function createProteinGoalAction(
-  prevState: { success: boolean; message: string } | null,
+  _prevState: { success: boolean; message: string } | null,
   formData: FormData
 ) {
   const sql = neon(`${process.env.DATABASE_URL}`);

@@ -3,7 +3,7 @@
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { createProteinGoalAction } from "@/actions/protein";
-import { use, useActionState } from "react";
+import { useActionState } from "react";
 
 const initialState = {
   message: "",
