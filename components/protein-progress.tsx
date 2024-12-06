@@ -12,7 +12,7 @@ export function ProteinProgress({
   const percentage = Math.min((currentAmount / goalAmount) * 100, 100);
 
   return (
-    <div className="space-y-2 w-full max-w-md">
+    <div className="space-y-2 w-full ">
       <div className="flex justify-between text-sm">
         <span>
           Progress: {currentAmount}g / {goalAmount}g
