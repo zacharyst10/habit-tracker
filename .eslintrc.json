@@ -1,6 +1,7 @@
 {
   "extends": ["next/core-web-vitals", "next/typescript"],
   "rules": {
-    "no-unused-vars":"warn"
+    "react/no-unescaped-entities": "warn",
+    "@next/next/no-page-custom-font": "warn"
   }
 }
