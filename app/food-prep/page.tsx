@@ -3,9 +3,9 @@ import {
   getProteinLoggedDays,
   getTodayTotal,
 } from "@/actions/protein";
+import { EditProteinGoal } from "@/components/edit-protein-goal";
 import { YearlyCalendar } from "@/components/food-prep-calendar";
 import { ProteinEntry } from "@/components/protein-entry";
-import { ProteinGoal } from "@/components/protein-goal";
 import { ProteinProgress } from "@/components/protein-progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ChevronDown, Bell, Search, UtensilsCrossed } from "lucide-react";
+import { Bell, Search, Calendar, TrendingUp, ListPlus } from "lucide-react";
 
 export interface LoggedDay {
   date: string;
@@ -26,138 +26,144 @@ export interface LoggedDay {
   goal: number;
 }
 
+const funnyTaglines = [
+  "Carbs? Never heard of her 💅",
+  "Making gains, taking names, ignoring grains 💪",
+  "Fats and carbs are just protein's hype squad 🎭",
+  "Because abs are made in the kitchen... with protein shakers 🥤",
+  "Other macros: *exist* | Me: *pretending they don't exist 👀",
+];
+
 export default async function FoodPrep() {
   const currentGoal = await getProteinGoalForDate(new Date().toISOString());
   const todayTotal = await getTodayTotal();
   const loggedDays: LoggedDay[] = await getProteinLoggedDays();
 
+  const tagline =
+    funnyTaglines[Math.floor(Math.random() * funnyTaglines.length)];
+
   return (
-    <div className="p-4 md:p-6">
-      <header className="flex items-center justify-between mb-8">
-        <div className="flex items-center gap-2">
-          <Avatar className="h-12 w-12">
-            <AvatarImage alt="User avatar" src="/placeholder.svg" />
-            <AvatarFallback>ZS</AvatarFallback>
-          </Avatar>
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto p-4 md:p-8">
+        {/* Header */}
+        <header className="flex items-center justify-between mb-8 bg-white rounded-xl p-4 shadow-sm">
+          <div className="flex items-center gap-4">
+            <Avatar className="h-12 w-12 ring-2 ring-primary/10">
+              <AvatarImage alt="User avatar" src="/placeholder.svg" />
+              <AvatarFallback>ZS</AvatarFallback>
+            </Avatar>
+            <div>
+              <h1 className="text-2xl font-bold text-primary">
+                Protein Tracker
+              </h1>
+              <p className="text-sm text-muted-foreground italic">{tagline}</p>
+            </div>
+          </div>
           <div className="flex items-center gap-2">
-            <h1 className="text-xl text-primary font-semibold">
-              Protein Tracker
-            </h1>
-            <Button size="icon" className="rounded-full">
-              <ChevronDown className="h-4 w-4" />
+            <Button variant="outline" size="icon" className="rounded-full">
+              <Bell className="h-5 w-5" />
+            </Button>
+            <Button variant="outline" size="icon" className="rounded-full">
+              <Search className="h-5 w-5" />
             </Button>
           </div>
-        </div>
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon">
-            <Bell className="h-5 w-5" />
-          </Button>
-          <Button variant="ghost" size="icon">
-            <Search className="h-5 w-5" />
-          </Button>
-        </div>
-      </header>
+        </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="bg-muted border-none shadow-none">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-semibold">Protein Overview</h2>
-              <Select defaultValue="daily">
-                <SelectTrigger className="w-[120px]">
-                  <SelectValue placeholder="Select view" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="daily">Daily</SelectItem>
-                  <SelectItem value="weekly">Weekly</SelectItem>
-                  <SelectItem value="monthly">Monthly</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="bg-black text-white rounded-3xl p-6">
-              <div className="text-center mb-6">
-                <p className="text-lg">Today's Protein Goal</p>
-                <p className="text-4xl font-bold mt-2">{currentGoal}g</p>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <Card className="lg:col-span-2 bg-gradient-to-br from-primary to-muted text-white border-none shadow-md">
+            <CardContent className="p-8">
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-2xl font-bold">Daily Progress</h2>
+                <Select defaultValue="daily">
+                  <SelectTrigger className="w-[120px] bg-white/10 border-white/20 text-white">
+                    <SelectValue placeholder="Select view" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="daily">Daily</SelectItem>
+                    <SelectItem value="weekly">Weekly</SelectItem>
+                    <SelectItem value="monthly">Monthly</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
-              <div className="relative w-full h-20">
-                <ProteinProgress
-                  currentAmount={todayTotal}
-                  goalAmount={currentGoal}
-                />
+              <div className="grid grid-cols-2 gap-8">
+                <div>
+                  <p className="text-white/80 mb-2">Current Progress</p>
+                  <div className="text-5xl font-bold mb-4">{todayTotal}g</div>
+                  <ProteinProgress
+                    currentAmount={todayTotal}
+                    goalAmount={currentGoal}
+                  />
+                </div>
+                <div>
+                  <p className="text-white/80 mb-2">Daily Goal</p>
+                  <div className="text-5xl font-bold">{currentGoal}g</div>
+                  <p className="text-white/60 mt-4">
+                    {((todayTotal / currentGoal) * 100).toFixed(1)}% of daily
+                    goal
+                  </p>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
 
-        <Card className="bg-muted border-none shadow-none">
-          <CardContent className="p-6">
-            <h2 className="text-2xl font-semibold mb-6">Protein Entry</h2>
-            <ProteinEntry />
-            <div className="mt-4">
-              <ProteinGoal />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-muted border-none shadow-none lg:col-span-2">
-          <CardContent className="p-6">
-            <h2 className="text-2xl font-semibold mb-6">Yearly Overview</h2>
-            <YearlyCalendar loggedDays={loggedDays} />
-          </CardContent>
-        </Card>
-
-        <Card className="bg-muted border-none shadow-none lg:col-span-2">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-semibold">Protein Stats</h2>
-              <Button variant="outline" size="sm">
-                <UtensilsCrossed className="mr-2 h-4 w-4" />
-                Log Meal
+          <Card>
+            <CardHeader>
+              <h2 className="text-xl font-semibold">Quick Actions</h2>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <Button className="w-full justify-start" variant="outline">
+                <ListPlus className="mr-2 h-5 w-5" />
+                Log Protein Entry
               </Button>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Card>
-                <CardHeader>
-                  <h3 className="font-semibold">Today's Progress</h3>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div>
-                    <div className="flex justify-between mb-1">
-                      <span className="text-sm">Protein</span>
-                      <span className="text-sm">
-                        {Math.round((todayTotal / currentGoal) * 100)}%
-                      </span>
-                    </div>
-                    <ProteinProgress
-                      currentAmount={todayTotal}
-                      goalAmount={currentGoal}
-                    />
+              <Button className="w-full justify-start" variant="outline">
+                <TrendingUp className="mr-2 h-5 w-5" />
+                View Statistics
+              </Button>
+              <Button className="w-full justify-start" variant="outline">
+                <Calendar className="mr-2 h-5 w-5" />
+                Weekly Overview
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="lg:col-span-2">
+            <CardHeader className="flex flex-row items-center justify-between">
+              <h2 className="text-xl font-semibold">Add Protein Entry</h2>
+              <EditProteinGoal />
+            </CardHeader>
+            <CardContent>
+              <ProteinEntry />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <h2 className="text-xl font-semibold">Weekly Overview</h2>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
+                <div key={day}>
+                  <div className="flex justify-between text-sm mb-2">
+                    <span>{day}</span>
+                    <span className="text-muted-foreground">
+                      {Math.floor(Math.random() * 50 + 150)}g
+                    </span>
                   </div>
-                  <div className="text-sm text-muted-foreground">
-                    {todayTotal}g / {currentGoal}g consumed
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <h3 className="font-semibold">Weekly Average</h3>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div>
-                    <div className="flex justify-between mb-1">
-                      <span className="text-sm">Protein</span>
-                      <span className="text-sm">85%</span>
-                    </div>
-                    <Progress value={85} className="h-2" />
-                  </div>
-                  <div className="text-sm text-muted-foreground">
-                    Average: 170g / 200g per day
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </CardContent>
-        </Card>
+                  <Progress value={Math.random() * 100} className="h-2" />
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+
+          <Card className="lg:col-span-3">
+            <CardHeader>
+              <h2 className="text-xl font-semibold">Yearly Overview</h2>
+            </CardHeader>
+            <CardContent>
+              <YearlyCalendar loggedDays={loggedDays} />
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );
