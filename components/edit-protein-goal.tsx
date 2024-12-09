@@ -15,8 +15,8 @@ export function EditProteinGoal() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="ghost">
-          <Beef className="hover:text-primary" />
+        <Button>
+          <Beef className="hover:text-primary h-10 w-10" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

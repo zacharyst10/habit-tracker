@@ -10,7 +10,6 @@ import { ProteinProgress } from "@/components/protein-progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import {
   Select,
   SelectContent,
@@ -18,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { WeeklyOverview } from "@/components/weekly-overview";
 import { Bell, Search, Calendar, TrendingUp, ListPlus } from "lucide-react";
 
 export interface LoggedDay {
@@ -44,7 +44,7 @@ export default async function FoodPrep() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto p-4 md:p-8">
+      <div className="mx-auto p-4 md:p-8">
         {/* Header */}
         <header className="flex items-center justify-between mb-8 bg-white rounded-xl p-4 shadow-sm">
           <div className="flex items-center gap-4">
@@ -134,6 +134,9 @@ export default async function FoodPrep() {
             <CardContent>
               <ProteinEntry />
             </CardContent>
+            <CardContent>
+              <YearlyCalendar loggedDays={loggedDays} />
+            </CardContent>
           </Card>
 
           <Card>
@@ -141,26 +144,7 @@ export default async function FoodPrep() {
               <h2 className="text-xl font-semibold">Weekly Overview</h2>
             </CardHeader>
             <CardContent className="space-y-6">
-              {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
-                <div key={day}>
-                  <div className="flex justify-between text-sm mb-2">
-                    <span>{day}</span>
-                    <span className="text-muted-foreground">
-                      {Math.floor(Math.random() * 50 + 150)}g
-                    </span>
-                  </div>
-                  <Progress value={Math.random() * 100} className="h-2" />
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-
-          <Card className="lg:col-span-3">
-            <CardHeader>
-              <h2 className="text-xl font-semibold">Yearly Overview</h2>
-            </CardHeader>
-            <CardContent>
-              <YearlyCalendar loggedDays={loggedDays} />
+              <WeeklyOverview loggedDays={loggedDays} />
             </CardContent>
           </Card>
         </div>

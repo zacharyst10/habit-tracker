@@ -402,7 +402,7 @@ export default async function Home() {
                   <div className="font-semibold flex justify-between">
                     <div>The only macros that matter!</div>
                     <Button variant="link" asChild>
-                      <Link href="/food-prep">See Detail</Link>
+                      <Link href="/food-prep">Get Jacked!</Link>
                     </Button>
                   </div>
                 </CardHeader>
@@ -412,17 +412,6 @@ export default async function Home() {
                     <ProteinProgress
                       currentAmount={todayTotal}
                       goalAmount={currentGoal}
-                    />
-                  </div>
-                  <div>
-                    <div className="flex justify-between mb-1">
-                      <span className="text-sm">Fiber</span>
-                      <span className="text-sm">52.5%</span>
-                    </div>
-                    <Progress
-                      value={52.5}
-                      className="h-2"
-                      indicatorColor="bg-green-500"
                     />
                   </div>
                 </CardContent>
