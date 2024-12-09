@@ -1,4 +1,5 @@
 import { getProteinGoalForDate, getTodayTotal } from "@/actions/protein";
+import { DaddyDayPlanner } from "@/components/daddy-day-planner";
 import { ProteinProgress } from "@/components/protein-progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -12,7 +13,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
-  Plus,
   ChevronDown,
   Bell,
   Search,
@@ -222,7 +222,7 @@ export default async function Home() {
                 Current Activities
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Card className="bg-primary">
+                <Card className=" bg-gradient-to-br from-primary to-muted">
                   <CardContent className="p-4 flex items-center justify-between">
                     <div className="text-white">
                       <h3 className="font-semibold text-lg mb-1">
@@ -235,11 +235,11 @@ export default async function Home() {
                       variant="ghost"
                       className="rounded-full text-white"
                     >
-                      <Book className="h-6 w-6" />
+                      <Book className="h-6 w-6 text-black" />
                     </Button>
                   </CardContent>
                 </Card>
-                <Card>
+                <Card className="bg-gradient-to-br from-primary to-muted text-white">
                   <CardContent className="p-4 flex items-center justify-between">
                     <div>
                       <h3 className="font-semibold text-lg mb-1">
@@ -252,11 +252,11 @@ export default async function Home() {
                       variant="ghost"
                       className="rounded-full"
                     >
-                      <Languages className="h-6 w-6" />
+                      <Languages className="h-6 w-6 text-black" />
                     </Button>
                   </CardContent>
                 </Card>
-                <Card className="bg-[#262626] text-white">
+                <Card className=" bg-gradient-to-br from-primary to-muted text-white">
                   <CardContent className="p-4 flex items-center justify-between">
                     <div>
                       <h3 className="font-semibold text-lg mb-1">
@@ -269,11 +269,11 @@ export default async function Home() {
                       variant="ghost"
                       className="rounded-full text-white"
                     >
-                      <Code className="h-6 w-6" />
+                      <Code className="h-6 w-6 text-black" />
                     </Button>
                   </CardContent>
                 </Card>
-                <Card>
+                <Card className="bg-gradient-to-br from-primary to-muted text-white">
                   <CardContent className="p-4 flex items-center justify-between">
                     <div>
                       <h3 className="font-semibold text-lg mb-1">
@@ -286,11 +286,11 @@ export default async function Home() {
                       variant="ghost"
                       className="rounded-full"
                     >
-                      <Dumbbell className="h-6 w-6" />
+                      <Dumbbell className="h-6 w-6 text-black" />
                     </Button>
                   </CardContent>
                 </Card>
-                <Card>
+                <Card className="bg-gradient-to-br from-primary to-muted text-white">
                   <CardContent className="p-4 flex items-center justify-between">
                     <div>
                       <h3 className="font-semibold text-lg mb-1">Food Prep</h3>
@@ -301,7 +301,7 @@ export default async function Home() {
                       variant="ghost"
                       className="rounded-full"
                     >
-                      <UtensilsCrossed className="h-6 w-6" />
+                      <UtensilsCrossed className="h-6 w-6 text-black" />
                     </Button>
                   </CardContent>
                 </Card>
@@ -309,116 +309,29 @@ export default async function Home() {
             </CardContent>
           </Card>
         </div>
-        <div className="lg:w-1/3">
-          <Card className="bg-muted border-none shadow-none">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-semibold">My Meal Plan</h2>
-                <div className="flex items-center gap-2">
-                  <p className="text-sm">Sat, 09 September 2023</p>
-                  <Button variant="ghost" size="icon">
-                    <ChevronDown className="h-4 w-4" />
+        <Card className="bg-muted border-none shadow-none">
+          <CardContent className="p-6 bg-muted border-none shadow-none">
+            <DaddyDayPlanner />
+            <Card className="mt-6 space-y-4">
+              <CardHeader>
+                <div className="font-semibold flex justify-between">
+                  <div>The only macros that matter!</div>
+                  <Button variant="link" asChild>
+                    <Link href="/food-prep">Get Jacked!</Link>
                   </Button>
                 </div>
-              </div>
-              <div className="space-y-4">
-                <Card>
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="font-semibold">Breakfast</h3>
-                        <p className="text-sm text-gray-500">
-                          05.00 am - 07.00 am
-                        </p>
-                      </div>
-                      <p className="font-semibold">380 kcal</p>
-                    </div>
-                    <div className="flex items-center gap-2 mt-4">
-                      <Avatar className="h-12 w-12">
-                        <AvatarImage alt="Meal 1" src="/placeholder.svg" />
-                        <AvatarFallback>M1</AvatarFallback>
-                      </Avatar>
-                      <Avatar className="h-12 w-12">
-                        <AvatarImage alt="Meal 2" src="/placeholder.svg" />
-                        <AvatarFallback>M2</AvatarFallback>
-                      </Avatar>
-                      <Button size="icon" variant="outline">
-                        <Plus className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="font-semibold">Lunch</h3>
-                        <p className="text-sm text-gray-500">
-                          12.30 pm - 01.00 pm
-                        </p>
-                      </div>
-                      <p className="font-semibold">420 kcal</p>
-                    </div>
-                    <div className="flex items-center gap-2 mt-4">
-                      <Avatar className="h-12 w-12">
-                        <AvatarImage alt="Meal 1" src="/placeholder.svg" />
-                        <AvatarFallback>M1</AvatarFallback>
-                      </Avatar>
-                      <Avatar className="h-12 w-12">
-                        <AvatarImage alt="Meal 2" src="/placeholder.svg" />
-                        <AvatarFallback>M2</AvatarFallback>
-                      </Avatar>
-                      <Button size="icon" variant="outline">
-                        <Plus className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="font-semibold">Dinner</h3>
-                        <p className="text-sm text-gray-500">
-                          06.00 pm - 08.00 pm
-                        </p>
-                      </div>
-                      <p className="font-semibold">220 kcal</p>
-                    </div>
-                    <div className="flex items-center gap-2 mt-4">
-                      <Avatar className="h-12 w-12">
-                        <AvatarImage alt="Meal 1" src="/placeholder.svg" />
-                        <AvatarFallback>M1</AvatarFallback>
-                      </Avatar>
-                      <Button size="icon" variant="outline">
-                        <Plus className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-              <Card className="mt-6 space-y-4">
-                <CardHeader className="">
-                  <div className="font-semibold flex justify-between">
-                    <div>The only macros that matter!</div>
-                    <Button variant="link" asChild>
-                      <Link href="/food-prep">Get Jacked!</Link>
-                    </Button>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div>
-                    <div className="flex justify-between mb-1"></div>
-                    <ProteinProgress
-                      currentAmount={todayTotal}
-                      goalAmount={currentGoal}
-                    />
-                  </div>
-                </CardContent>
-              </Card>
-            </CardContent>
-          </Card>
-        </div>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div>
+                  <ProteinProgress
+                    currentAmount={todayTotal}
+                    goalAmount={currentGoal}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

@@ -1,6 +1,14 @@
 "use client";
 
-import { Apple, Book, Code2, Dumbbell, Home, Languages } from "lucide-react";
+import {
+  Apple,
+  Book,
+  Code2,
+  Dumbbell,
+  Gamepad2,
+  Home,
+  Languages,
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -45,6 +53,11 @@ const items = [
     title: "Book Corner",
     url: "/book-corner",
     icon: Book,
+  },
+  {
+    title: "Super Satur Daddy Day",
+    url: "/super-satur-daddy-day",
+    icon: Gamepad2,
   },
 ];
 

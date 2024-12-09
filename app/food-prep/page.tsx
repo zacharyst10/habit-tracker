@@ -45,7 +45,6 @@ export default async function FoodPrep() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="mx-auto p-4 md:p-8">
-        {/* Header */}
         <header className="flex items-center justify-between mb-8 bg-white rounded-xl p-4 shadow-sm">
           <div className="flex items-center gap-4">
             <Avatar className="h-12 w-12 ring-2 ring-primary/10">
