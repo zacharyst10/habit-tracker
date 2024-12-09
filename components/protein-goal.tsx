@@ -1,9 +1,11 @@
 "use client";
 
 import { updateProteinGoal } from "@/actions/protein";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useActionState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Loader2 } from "lucide-react";
 
 const initialState = {
   message: "",
@@ -15,27 +17,41 @@ export function ProteinGoal() {
     updateProteinGoal,
     initialState
   );
-  return (
-    <form action={formAction}>
-      <div className="flex flex-col gap-2">
-        <Input
-          type="number"
-          placeholder="Enter protein goal"
-          name="protein_goal"
-          required
-        />
-        <Button type="submit">{isPending ? "Loading..." : "Submit"}</Button>
 
-        {state?.message && (
-          <p
-            className={`text-sm ${
-              state.success ? "text-green-500" : "text-red-500"
-            }`}
-          >
-            {state.message}
-          </p>
-        )}
-      </div>
-    </form>
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Set Protein Goal</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form action={formAction} className="space-y-4">
+          <Input
+            type="number"
+            placeholder="Enter protein goal in grams"
+            name="protein_goal"
+            required
+          />
+          <Button type="submit" className="w-full" disabled={isPending}>
+            {isPending ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Updating...
+              </>
+            ) : (
+              "Update Goal"
+            )}
+          </Button>
+          {state?.message && (
+            <p
+              className={`text-sm ${
+                state.success ? "text-green-500" : "text-destructive"
+              }`}
+            >
+              {state.message}
+            </p>
+          )}
+        </form>
+      </CardContent>
+    </Card>
   );
 }

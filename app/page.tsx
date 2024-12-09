@@ -1,4 +1,4 @@
-import { getCurrentProteinGoal, getTodayTotal } from "@/actions/protein";
+import { getProteinGoalForDate, getTodayTotal } from "@/actions/protein";
 import { ProteinProgress } from "@/components/protein-progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -29,7 +29,7 @@ import {
 import Link from "next/link";
 
 export default async function Home() {
-  const currentGoal = await getCurrentProteinGoal();
+  const currentGoal = await getProteinGoalForDate(new Date().toISOString());
   const todayTotal = await getTodayTotal();
   return (
     <div className="p-4 md:p-6 ">

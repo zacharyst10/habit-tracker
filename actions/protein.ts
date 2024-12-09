@@ -1,4 +1,5 @@
 "use server";
+import { LoggedDay } from "@/app/food-prep/page";
 import { neon } from "@neondatabase/serverless";
 
 export async function updateProteinGoal(
@@ -97,10 +98,10 @@ export async function getTodayTotal() {
   return result[0].total || 0;
 }
 
-export async function getProteinLoggedDays() {
+export async function getProteinLoggedDays(): Promise<LoggedDay[]> {
   const sql = neon(`${process.env.DATABASE_URL}`);
   const result = await sql`
-    SELECT DISTINCT date, 
+    SELECT DISTINCT date::text, 
            SUM(protein_amount) as total_protein,
            (SELECT protein_goal FROM daily_protein_goals g 
             WHERE g.date = t.date 
@@ -109,5 +110,9 @@ export async function getProteinLoggedDays() {
     GROUP BY date
     ORDER BY date DESC
   `;
-  return result;
+  return result.map((row) => ({
+    date: row.date,
+    total_protein: Number(row.total_protein),
+    goal: Number(row.goal),
+  }));
 }

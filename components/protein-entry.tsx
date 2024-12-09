@@ -1,8 +1,11 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { addProteinAmount } from "@/actions/protein";
 import { useActionState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Plus } from "lucide-react";
 
 const initialState = {
   message: "",
@@ -13,28 +16,35 @@ export function ProteinEntry() {
   const [state, formAction] = useActionState(addProteinAmount, initialState);
 
   return (
-    <form action={formAction}>
-      <div className="flex flex-col gap-4">
-        <h3 className="font-semibold">Log Protein Intake</h3>
-        <div className="flex gap-2">
-          <Input
-            type="number"
-            name="protein_amount"
-            placeholder="Enter amount in grams"
-            className="w-48"
-          />
-          <Button type="submit">Add</Button>
-        </div>
-        {state?.message && (
-          <p
-            className={`text-sm ${
-              state.success ? "text-green-500" : "text-red-500"
-            }`}
-          >
-            {state.message}
-          </p>
-        )}
-      </div>
-    </form>
+    <Card>
+      <CardHeader>
+        <CardTitle>Log Protein Intake</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form action={formAction} className="space-y-4">
+          <div className="flex space-x-2">
+            <Input
+              type="number"
+              name="protein_amount"
+              placeholder="Enter amount in grams"
+              className="flex-1"
+            />
+            <Button type="submit">
+              <Plus className="mr-2 h-4 w-4" />
+              Add
+            </Button>
+          </div>
+          {state?.message && (
+            <p
+              className={`text-sm ${
+                state.success ? "text-green-500" : "text-destructive"
+              }`}
+            >
+              {state.message}
+            </p>
+          )}
+        </form>
+      </CardContent>
+    </Card>
   );
 }
