@@ -1,8 +1,8 @@
 "use client";
 
+import { updateProteinGoal } from "@/actions/protein";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { createProteinGoalAction } from "@/actions/protein";
 import { useActionState } from "react";
 
 const initialState = {
@@ -12,7 +12,7 @@ const initialState = {
 
 export function ProteinGoal() {
   const [state, formAction, isPending] = useActionState(
-    createProteinGoalAction,
+    updateProteinGoal,
     initialState
   );
   return (

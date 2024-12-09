@@ -1,12 +1,17 @@
-import { getCurrentProteinGoal, getTodayTotal } from "@/actions/protein";
+import {
+  getProteinGoalForDate,
+  getProteinLoggedDays,
+  getTodayTotal,
+} from "@/actions/protein";
 import { YearlyCalendar } from "@/components/food-prep-calendar";
 import { ProteinEntry } from "@/components/protein-entry";
 import { ProteinGoal } from "@/components/protein-goal";
 import { ProteinProgress } from "@/components/protein-progress";
 
 export default async function FoodPrep() {
-  const currentGoal = await getCurrentProteinGoal();
+  const currentGoal = await getProteinGoalForDate(new Date().toISOString());
   const todayTotal = await getTodayTotal();
+  const loggedDays = await getProteinLoggedDays();
 
   return (
     <div className="min-h-screen p-8 sm:p-20">
@@ -29,6 +34,27 @@ export default async function FoodPrep() {
             Yearly Food Prep Calendar
           </h2>
           <YearlyCalendar />
+        </div>
+        <div className="space-y-4">
+          <div className="grid grid-cols-7 gap-2">
+            {loggedDays.map((day) => (
+              <div
+                key={day.date}
+                className={`p-4 rounded-lg ${
+                  day.total_protein >= day.goal
+                    ? "bg-green-100"
+                    : "bg-yellow-100"
+                }`}
+              >
+                <div className="font-medium">
+                  {new Date(day.date).toLocaleDateString()}
+                </div>
+                <div className="text-sm">
+                  {day.total_protein}g / {day.goal}g
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
