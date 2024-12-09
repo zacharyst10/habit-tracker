@@ -3,6 +3,7 @@
   "rules": {
     "no-unused-vars":"warn",
     "react/no-unescaped-entities": "warn",
-    "@next/next/no-page-custom-font": "warn"
+    "@next/next/no-page-custom-font": "warn",
+    "@typescript-eslint/no-unused-vars": "warn",
   }
 }
