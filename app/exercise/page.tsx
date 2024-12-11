@@ -19,19 +19,11 @@ import {
   BarChart3,
   Calendar,
 } from "lucide-react";
+import WorkoutCategories from "@/components/workout-categories";
+import { getWeeklyWorkouts } from "@/actions/exercise";
 
-const funnyTaglines = [
-  "No pain, no gain... but also no brain damage please 🧠",
-  "Getting stronger every day... at making excuses 💪",
-  "My workout plan is like my coffee - strong and consistent ☕",
-  "Building muscles and breaking PRs... and occasionally my spirit 🏋️‍♂️",
-  "Today's workout is sponsored by determination... and pre-workout 🔋",
-];
-
-const WorkoutTracker = () => {
-  const tagline =
-    funnyTaglines[Math.floor(Math.random() * funnyTaglines.length)];
-
+export default async function WorkoutTracker() {
+  const weeklyWorkouts = await getWeeklyWorkouts();
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="mx-auto p-4 md:p-8">
@@ -45,7 +37,6 @@ const WorkoutTracker = () => {
               <h1 className="text-2xl font-bold text-primary">
                 Workout Tracker
               </h1>
-              <p className="text-sm text-muted-foreground italic">{tagline}</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -64,6 +55,7 @@ const WorkoutTracker = () => {
             <CardContent className="p-8">
               <div className="flex items-center justify-between mb-8">
                 <h2 className="text-2xl font-bold">Weekly Overview</h2>
+
                 <Select defaultValue="week">
                   <SelectTrigger className="w-[120px] bg-white/10 border-white/20 text-white">
                     <SelectValue placeholder="Select period" />
@@ -81,7 +73,12 @@ const WorkoutTracker = () => {
                     <Dumbbell className="h-5 w-5" />
                     <p>Strength</p>
                   </div>
-                  <div className="text-4xl font-bold mb-2">4</div>
+                  <div className="text-4xl font-bold mb-2">
+                    {weeklyWorkouts.reduce(
+                      (sum, workout) => sum + (workout.strength || 0),
+                      0
+                    )}
+                  </div>
                   <p className="text-white/60">workouts</p>
                 </div>
                 <div>
@@ -89,7 +86,12 @@ const WorkoutTracker = () => {
                     <Activity className="h-5 w-5" />
                     <p>Cardio</p>
                   </div>
-                  <div className="text-4xl font-bold mb-2">3</div>
+                  <div className="text-4xl font-bold mb-2">
+                    {weeklyWorkouts.reduce(
+                      (sum, workout) => sum + (workout.cardio || 0),
+                      0
+                    )}
+                  </div>
                   <p className="text-white/60">sessions</p>
                 </div>
                 <div>
@@ -97,14 +99,18 @@ const WorkoutTracker = () => {
                     <Heart className="h-5 w-5" />
                     <p>Recovery</p>
                   </div>
-                  <div className="text-4xl font-bold mb-2">2</div>
+                  <div className="text-4xl font-bold mb-2">
+                    {weeklyWorkouts.reduce(
+                      (sum, workout) => sum + (workout.recovery || 0),
+                      0
+                    )}
+                  </div>
                   <p className="text-white/60">activities</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Quick Actions */}
           <Card>
             <CardHeader>
               <h2 className="text-xl font-semibold">Quick Actions</h2>
@@ -128,44 +134,10 @@ const WorkoutTracker = () => {
           {/* Category Cards */}
           <Card className="lg:col-span-2">
             <CardHeader>
-              <h2 className="text-xl font-semibold">Workout Categories</h2>
+              <h2 className="text-xl font-semibold">Log a Workout</h2>
             </CardHeader>
             <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="p-4 rounded-lg bg-orange-50 border border-orange-100">
-                <div className="flex items-center gap-2 mb-4">
-                  <Dumbbell className="h-6 w-6 text-orange-600" />
-                  <h3 className="font-semibold text-orange-900">Strength</h3>
-                </div>
-                <ul className="space-y-2 text-sm text-orange-700">
-                  <li>Weight Training</li>
-                  <li>Bodyweight Exercises</li>
-                  <li>Resistance Training</li>
-                </ul>
-              </div>
-
-              <div className="p-4 rounded-lg bg-blue-50 border border-blue-100">
-                <div className="flex items-center gap-2 mb-4">
-                  <Activity className="h-6 w-6 text-blue-600" />
-                  <h3 className="font-semibold text-blue-900">Cardio</h3>
-                </div>
-                <ul className="space-y-2 text-sm text-blue-700">
-                  <li>Running</li>
-                  <li>Cycling</li>
-                  <li>Swimming</li>
-                </ul>
-              </div>
-
-              <div className="p-4 rounded-lg bg-green-50 border border-green-100">
-                <div className="flex items-center gap-2 mb-4">
-                  <Heart className="h-6 w-6 text-green-600" />
-                  <h3 className="font-semibold text-green-900">Recovery</h3>
-                </div>
-                <ul className="space-y-2 text-sm text-green-700">
-                  <li>Stretching</li>
-                  <li>Yoga</li>
-                  <li>Meditation</li>
-                </ul>
-              </div>
+              <WorkoutCategories />
             </CardContent>
           </Card>
 
@@ -219,6 +191,4 @@ const WorkoutTracker = () => {
       </div>
     </div>
   );
-};
-
-export default WorkoutTracker;
+}
