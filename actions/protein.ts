@@ -8,7 +8,7 @@ export async function updateProteinGoal(
 ) {
   const sql = neon(`${process.env.DATABASE_URL}`);
   const goalValue = formData.get("protein_goal");
-  const date = new Date().toISOString().split("T")[0]; // Get current date
+  const date = new Date().toISOString().split("T")[0];
 
   if (!goalValue || isNaN(Number(goalValue))) {
     return {
@@ -56,9 +56,17 @@ export async function addProteinAmount(
     };
   }
 
+  // Get current date in Mountain time
+  const date = new Date()
+    .toLocaleString("en-US", { timeZone: "America/Denver" })
+    .split(",")[0];
+
   await sql`
-    INSERT INTO daily_protein_tracking (protein_amount)
-    VALUES (${Number(amount)})
+    INSERT INTO daily_protein_tracking (protein_amount, date)
+    VALUES (
+      ${Number(amount)},
+      ${date}::date
+    )
   `;
 
   return {
@@ -66,7 +74,6 @@ export async function addProteinAmount(
     message: "Protein amount added",
   };
 }
-
 export async function getProteinHistoryByDate(days: number = 7) {
   const sql = neon(`${process.env.DATABASE_URL}`);
   const result = await sql`

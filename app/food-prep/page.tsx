@@ -34,6 +34,14 @@ const funnyTaglines = [
   "Other macros: *exist* | Me: *pretending they don't exist 👀",
 ];
 
+const formatCurrentDate = () => {
+  return new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  });
+};
+
 export default async function FoodPrep() {
   const currentGoal = await getProteinGoalForDate(new Date().toISOString());
   const todayTotal = await getTodayTotal();
@@ -72,7 +80,9 @@ export default async function FoodPrep() {
           <Card className="lg:col-span-2 bg-gradient-to-br from-primary to-muted text-white border-none shadow-md">
             <CardContent className="p-8">
               <div className="flex items-center justify-between mb-8">
-                <h2 className="text-2xl font-bold">Daily Progress</h2>
+                <h2 className="text-2xl font-bold">
+                  Daily Progress for - {formatCurrentDate()}
+                </h2>
                 <Select defaultValue="daily">
                   <SelectTrigger className="w-[120px] bg-white/10 border-white/20 text-white">
                     <SelectValue placeholder="Select view" />
