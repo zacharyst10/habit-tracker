@@ -75,7 +75,7 @@ export default async function WorkoutTracker() {
                   </div>
                   <div className="text-4xl font-bold mb-2">
                     {weeklyWorkouts.reduce(
-                      (sum, workout) => sum + (workout.strength || 0),
+                      (sum, workout) => sum + (Number(workout.strength) || 0),
                       0
                     )}
                   </div>
@@ -88,7 +88,7 @@ export default async function WorkoutTracker() {
                   </div>
                   <div className="text-4xl font-bold mb-2">
                     {weeklyWorkouts.reduce(
-                      (sum, workout) => sum + (workout.cardio || 0),
+                      (sum, workout) => sum + (Number(workout.cardio) || 0),
                       0
                     )}
                   </div>
@@ -101,7 +101,7 @@ export default async function WorkoutTracker() {
                   </div>
                   <div className="text-4xl font-bold mb-2">
                     {weeklyWorkouts.reduce(
-                      (sum, workout) => sum + (workout.recovery || 0),
+                      (sum, workout) => sum + (Number(workout.recovery) || 0),
                       0
                     )}
                   </div>

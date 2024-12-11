@@ -15,7 +15,7 @@ import {
   Dice6Icon,
 } from "lucide-react";
 
-export function ActivityRoute() {
+export default function ActivityRoute() {
   return (
     <div className="p-6 relative overflow-hidden">
       {/* Fun Background Elements */}
@@ -194,5 +194,3 @@ export function ActivityRoute() {
     </div>
   );
 }
-
-export default ActivityRoute;
