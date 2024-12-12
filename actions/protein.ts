@@ -1,6 +1,7 @@
 "use server";
 import { LoggedDay } from "@/app/food-prep/page";
 import { neon } from "@neondatabase/serverless";
+import { revalidatePath } from "next/cache";
 
 export async function updateProteinGoal(
   _prevState: { success: boolean; message: string } | null,
@@ -68,6 +69,7 @@ export async function addProteinAmount(
       ${date}::date
     )
   `;
+  revalidatePath("/food-prep");
 
   return {
     success: true,
