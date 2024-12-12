@@ -24,6 +24,7 @@ export async function logExercise(formData: FormData): Promise<void> {
     console.error("Failed to log exercise:", error);
     throw new Error("Failed to log exercise");
   }
+  revalidatePath("/exercise");
 }
 
 export async function getWeeklyWorkouts() {
@@ -39,6 +40,6 @@ export async function getWeeklyWorkouts() {
       GROUP BY date
       ORDER BY date DESC
     `;
-  revalidatePath("/exercise");
+
   return result;
 }
