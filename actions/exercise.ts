@@ -1,5 +1,6 @@
 "use server";
 import { neon } from "@neondatabase/serverless";
+import { revalidatePath } from "next/cache";
 
 export async function logExercise(formData: FormData): Promise<void> {
   const sql = neon(`${process.env.DATABASE_URL}`);
@@ -38,5 +39,6 @@ export async function getWeeklyWorkouts() {
       GROUP BY date
       ORDER BY date DESC
     `;
+  revalidatePath("/exercise");
   return result;
 }

@@ -70,6 +70,7 @@ export async function addProteinAmount(
     )
   `;
   revalidatePath("/food-prep");
+  revalidatePath("/");
 
   return {
     success: true,
