@@ -4,11 +4,36 @@ import { Calendar } from "@/components/ui/calendar";
 import { DayContentProps } from "react-day-picker";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Trash2 } from "lucide-react";
+import {
+  getProteinEntriesForDate,
+  deleteProteinEntry,
+} from "@/actions/protein";
+import { useActionState } from "react";
+import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface LoggedDay {
   date: string;
   total_protein: number;
   goal: number;
+}
+
+interface ProteinEntry {
+  id: number;
+  amount: number;
+  timestamp: string;
 }
 
 interface YearlyCalendarProps {
@@ -20,24 +45,54 @@ export function YearlyCalendar({ loggedDays }: YearlyCalendarProps) {
   const [selectedDayInfo, setSelectedDayInfo] = useState<LoggedDay | null>(
     null
   );
+  const [dayEntries, setDayEntries] = useState<ProteinEntry[]>([]);
+  const [deleteState, deleteAction] = useActionState(deleteProteinEntry, null);
 
   const loggedDaysMap = new Map(loggedDays.map((day) => [day.date, day]));
 
-  const updateSelectedDayInfo = (selectedDate: Date) => {
+  const updateSelectedDayInfo = async (selectedDate: Date) => {
     const dateString = selectedDate.toISOString().split("T")[0];
     const dayInfo = loggedDaysMap.get(dateString);
     setSelectedDayInfo(dayInfo || null);
+
+    if (dayInfo) {
+      const entries = await getProteinEntriesForDate(dateString);
+      setDayEntries(entries);
+    } else {
+      setDayEntries([]);
+    }
   };
 
   useEffect(() => {
     updateSelectedDayInfo(date);
-  }, [loggedDays]);
+  }, [loggedDays, date]);
+
+  // Handle delete state changes
+  useEffect(() => {
+    if (deleteState) {
+      if (deleteState.success) {
+        toast.success(deleteState.message);
+        // Refresh the entries after successful deletion
+        updateSelectedDayInfo(date);
+      } else {
+        toast.error(deleteState.message);
+      }
+    }
+  }, [deleteState, date]);
 
   const handleDateSelect = (selectedDate: Date | undefined) => {
     if (selectedDate) {
       setDate(selectedDate);
       updateSelectedDayInfo(selectedDate);
     }
+  };
+
+  const formatTime = (timestamp: string) => {
+    return new Date(timestamp).toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      timeZone: "America/Denver",
+    });
   };
 
   return (
@@ -49,7 +104,7 @@ export function YearlyCalendar({ loggedDays }: YearlyCalendarProps) {
           mode="single"
           selected={date}
           onSelect={handleDateSelect}
-          className="rounded-3xl border"
+          className="rounded-3xl border w-full"
           modifiers={{
             logged: (date) =>
               loggedDaysMap.has(date.toISOString().split("T")[0]),
@@ -86,6 +141,7 @@ export function YearlyCalendar({ loggedDays }: YearlyCalendarProps) {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
+                timeZone: "America/Denver",
               })}
             </CardTitle>
           </CardHeader>
@@ -145,6 +201,62 @@ export function YearlyCalendar({ loggedDays }: YearlyCalendarProps) {
                     %
                   </p>
                 </div>
+                {dayEntries.length > 0 && (
+                  <div className="mt-6">
+                    <h3 className="text-sm font-medium mb-2">Daily Entries</h3>
+                    <div className="space-y-2">
+                      {dayEntries.map((entry) => (
+                        <div
+                          key={entry.id}
+                          className="flex justify-between items-center p-2 bg-gray-50 rounded-lg"
+                        >
+                          <span className="font-medium">{entry.amount}g</span>
+                          <div className="flex items-center gap-4">
+                            <span className="text-sm text-muted-foreground">
+                              {formatTime(entry.timestamp)}
+                            </span>
+                            <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-8 w-8 p-0 text-red-500 hover:text-red-700 hover:bg-red-50"
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>
+                                    Delete Protein Entry
+                                  </AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    Are you sure you want to delete this{" "}
+                                    {entry.amount}g protein entry? This action
+                                    cannot be undone.
+                                  </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                  <form action={deleteAction}>
+                                    <input
+                                      type="hidden"
+                                      name="entryId"
+                                      value={entry.id}
+                                    />
+                                    <AlertDialogAction type="submit">
+                                      Delete
+                                    </AlertDialogAction>
+                                  </form>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="text-center py-6 text-muted-foreground">

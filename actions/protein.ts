@@ -127,3 +127,48 @@ export async function getProteinLoggedDays(): Promise<LoggedDay[]> {
     goal: Number(row.goal),
   }));
 }
+
+export async function getProteinEntriesForDate(date: string) {
+  const sql = neon(`${process.env.DATABASE_URL}`);
+  const result = await sql`
+    SELECT 
+      id,
+      protein_amount,
+      created_at
+    FROM daily_protein_tracking
+    WHERE date = ${date}::date
+    ORDER BY created_at DESC
+  `;
+
+  return result.map((entry) => ({
+    id: entry.id,
+    amount: Number(entry.protein_amount),
+    timestamp: entry.created_at,
+  }));
+}
+
+export async function deleteProteinEntry(
+  _prevState: { success: boolean; message: string } | null,
+  formData: FormData
+) {
+  const sql = neon(`${process.env.DATABASE_URL}`);
+  const entryId = formData.get("entryId");
+
+  if (!entryId || isNaN(Number(entryId))) {
+    return {
+      success: false,
+      message: "Invalid entry ID",
+    };
+  }
+
+  await sql`
+    DELETE FROM daily_protein_tracking
+    WHERE id = ${Number(entryId)}
+  `;
+
+  revalidatePath("/food-prep");
+  return {
+    success: true,
+    message: "Entry deleted successfully",
+  };
+}
