@@ -1,11 +1,21 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { addProteinAmount } from "@/actions/protein";
-import { useActionState } from "react";
+import { startTransition, useActionState, useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus } from "lucide-react";
+import { Plus, LoaderCircle } from "lucide-react";
+import { useFormStatus } from "react-dom";
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+  return (
+    <Button type="submit" disabled={pending}>
+      <Plus className="mr-2 h-4 w-4" />
+      {pending ? <LoaderCircle className="h-4 w-4 animate-spin" /> : "Add"}
+    </Button>
+  );
+}
 
 const initialState = {
   message: "",
@@ -14,6 +24,18 @@ const initialState = {
 
 export function ProteinEntry() {
   const [state, formAction] = useActionState(addProteinAmount, initialState);
+  const [showMessage, setShowMessage] = useState(false);
+
+  useEffect(() => {
+    if (state.success) {
+      setShowMessage(true);
+      const timer = setTimeout(() => {
+        setShowMessage(false);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [state.success]);
 
   return (
     <Card>
@@ -29,12 +51,9 @@ export function ProteinEntry() {
               placeholder="Enter amount in grams"
               className="flex-1"
             />
-            <Button type="submit">
-              <Plus className="mr-2 h-4 w-4" />
-              Add
-            </Button>
+            <SubmitButton />
           </div>
-          {state?.message && (
+          {state?.message && showMessage && (
             <p
               className={`text-sm ${
                 state.success ? "text-green-500" : "text-destructive"

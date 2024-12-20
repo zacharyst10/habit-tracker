@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/select";
 import { WeeklyOverview } from "@/components/weekly-overview";
 import { Bell, Search, Calendar, TrendingUp, ListPlus } from "lucide-react";
+import { Suspense } from "react";
 
 export interface LoggedDay {
   date: string;
@@ -26,19 +27,12 @@ export interface LoggedDay {
   goal: number;
 }
 
-const funnyTaglines = [
-  "Carbs? Never heard of her 💅",
-  "Making gains, taking names, ignoring grains 💪",
-  "Fats and carbs are just protein's hype squad 🎭",
-  "Because abs are made in the kitchen... with protein shakers 🥤",
-  "Other macros: *exist* | Me: *pretending they don't exist 👀",
-];
-
 const formatCurrentDate = () => {
   return new Date().toLocaleDateString("en-US", {
     weekday: "long",
     month: "long",
     day: "numeric",
+    timeZone: "America/Denver",
   });
 };
 
@@ -46,9 +40,6 @@ export default async function FoodPrep() {
   const currentGoal = await getProteinGoalForDate(new Date().toISOString());
   const todayTotal = await getTodayTotal();
   const loggedDays: LoggedDay[] = await getProteinLoggedDays();
-
-  const tagline =
-    funnyTaglines[Math.floor(Math.random() * funnyTaglines.length)];
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -63,7 +54,9 @@ export default async function FoodPrep() {
               <h1 className="text-2xl font-bold text-primary">
                 Protein Tracker
               </h1>
-              <p className="text-sm text-muted-foreground italic">{tagline}</p>
+              <p className="text-sm text-muted-foreground italic">
+                The only macro that matters
+              </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -141,7 +134,9 @@ export default async function FoodPrep() {
               <EditProteinGoal />
             </CardHeader>
             <CardContent>
-              <ProteinEntry />
+              <Suspense fallback={<div>Loading...</div>}>
+                <ProteinEntry />
+              </Suspense>
             </CardContent>
             <CardContent>
               <YearlyCalendar loggedDays={loggedDays} />

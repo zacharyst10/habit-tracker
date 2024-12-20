@@ -69,14 +69,15 @@ export async function addProteinAmount(
       ${date}::date
     )
   `;
+
   revalidatePath("/food-prep");
-  revalidatePath("/");
 
   return {
     success: true,
     message: "Protein amount added",
   };
 }
+
 export async function getProteinHistoryByDate(days: number = 7) {
   const sql = neon(`${process.env.DATABASE_URL}`);
   const result = await sql`
