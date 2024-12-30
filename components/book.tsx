@@ -1,7 +1,7 @@
 "use client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, Delete } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import Image from "next/image";
 import { markAsRead, markAsUnread } from "@/actions/books";
 import { DeleteBook } from "./delete-book";
