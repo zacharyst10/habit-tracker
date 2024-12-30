@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  Apple,
-  Book,
-  Code2,
-  Dumbbell,
-  Gamepad2,
-  Home,
-  Languages,
-} from "lucide-react";
+import { Apple, Book, Code2, Gamepad2, Home, Languages } from "lucide-react";
 
 import {
   Sidebar,
@@ -29,11 +21,7 @@ const items = [
     url: "/",
     icon: Home,
   },
-  {
-    title: "Exercise",
-    url: "/exercise",
-    icon: Dumbbell,
-  },
+
   {
     title: "JS Mastery",
     url: "/js-mastery",
