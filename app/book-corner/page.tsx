@@ -1,4 +1,5 @@
 import { getBooks } from "@/actions/books";
+import AddBook from "@/components/add-book";
 import { Book } from "@/components/book";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -8,7 +9,11 @@ export default async function BookCorner() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold text-center mb-6">Book Corner</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold text-center mb-6">Book Corner</h1>
+
+        <AddBook />
+      </div>
 
       <Tabs defaultValue="want-to-read" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
