@@ -17,8 +17,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Fitness Dashboard",
-  description: "A comprehensive fitness tracking dashboard",
+  title: "2025 Habit Tracker",
+  description: "A comprehensive habit tracking dashboard",
 };
 
 export default function RootLayout({
