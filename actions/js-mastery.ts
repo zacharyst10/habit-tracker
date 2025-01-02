@@ -152,5 +152,24 @@ export async function updateTopicStatus(
       updated_at = CURRENT_TIMESTAMP
     WHERE concept_id = ${conceptId}
   `;
-  revalidatePath("/js-progress");
+  revalidatePath("/js-mastery");
+}
+
+export async function getCurrentTopics() {
+  const sql = neon(`${process.env.DATABASE_URL}`);
+  return await sql`
+    SELECT 
+      c.id,
+      c.topic, 
+      c.difficulty
+    FROM js_concepts c
+    JOIN concept_status s ON c.id = s.concept_id
+    WHERE s.status = 'in-progress'
+    ORDER BY 
+      CASE c.difficulty
+        WHEN 'intermediate' THEN 1
+        WHEN 'advanced' THEN 2
+        WHEN 'expert' THEN 3
+      END
+  `;
 }

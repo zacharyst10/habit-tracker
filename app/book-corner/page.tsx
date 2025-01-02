@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getBooks } from "@/actions/books";
 import AddBook from "@/components/add-book";
 import { Book } from "@/components/book";
