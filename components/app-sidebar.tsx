@@ -11,6 +11,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -51,6 +52,7 @@ const items = [
 
 export function AppSidebar() {
   const currentPath = usePathname();
+  const { setOpenMobile } = useSidebar();
   return (
     <Sidebar variant="floating" collapsible="icon" className="border-none">
       <SidebarContent className=" bg-black  rounded-2xl">
@@ -64,7 +66,7 @@ export function AppSidebar() {
                     asChild
                     isActive={currentPath === item.url}
                   >
-                    <Link href={item.url}>
+                    <Link href={item.url} onClick={() => setOpenMobile(false)}>
                       <item.icon className="w-10 h-10" />
                       <span>{item.title}</span>
                     </Link>

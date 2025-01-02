@@ -14,9 +14,7 @@ export default function ActivityRoute() {
         <div className="absolute top-40 right-40 w-24 h-24 bg-green-300 rounded-full blur-3xl opacity-20 animate-pulse delay-1000" />
       </div>
 
-      {/* Main Content */}
       <div className="space-y-8">
-        {/* Super Fun Header */}
         <div className="text-center transform -rotate-2">
           <div className="inline-block bg-white p-4 rounded-xl shadow-lg transform hover:rotate-2 transition-transform">
             <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-500 text-transparent bg-clip-text">
@@ -35,7 +33,6 @@ export default function ActivityRoute() {
           </div>
         </div>
 
-        {/* Activity Dashboard */}
         <ActivityDashboard />
       </div>
     </div>
