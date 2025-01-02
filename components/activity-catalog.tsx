@@ -11,7 +11,16 @@ import {
   SnowflakeIcon,
 } from "lucide-react";
 import { ActivityModal } from "./activity-modal";
-import { Activity } from "@/types/super-satur-daddy-day";
+
+interface Activity {
+  name: string;
+  icon: React.ReactNode;
+  duration: string;
+  costLevel: string;
+  seasonality: string;
+  color: string;
+  textColor: string;
+}
 
 const activities = [
   {
@@ -98,6 +107,7 @@ const activities = [
 ];
 
 interface SpecialActivitiesProps {
+  // eslint-disable-next-line no-unused-vars
   onActivityScheduled: (activity: Activity, date: Date, kid: string) => void;
 }
 
