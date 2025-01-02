@@ -15,8 +15,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { ActivityModalProps } from "@/types/super-satur-daddy-day";
 
+interface ActivityModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  activity: string;
+  onSave: (date: Date, kid: string) => void;
+}
 export function ActivityModal({
   isOpen,
   onClose,
