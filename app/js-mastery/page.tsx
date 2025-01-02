@@ -15,13 +15,13 @@ interface Topic {
   status: string;
 }
 
-export function InitializeButton() {
-  return (
-    <form action={initializeTopics}>
-      <button type="submit">Initialize Topics</button>
-    </form>
-  );
-}
+// function InitializeButton() {
+//   return (
+//     <form action={initializeTopics}>
+//       <button type="submit">Initialize Topics</button>
+//     </form>
+//   );
+// }
 
 export default async function JSKanban() {
   const topics = await getTopicsWithStatus();
