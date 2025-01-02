@@ -1,8 +1,4 @@
-import {
-  getTopicsWithStatus,
-  initializeTopics,
-  updateTopicStatus,
-} from "@/actions/js-mastery";
+import { getTopicsWithStatus, updateTopicStatus } from "@/actions/js-mastery";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
