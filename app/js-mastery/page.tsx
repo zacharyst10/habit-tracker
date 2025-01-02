@@ -1,198 +1,132 @@
-import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
-  BookOpenIcon,
-  CodeIcon,
-  GraduationCapIcon,
-  CheckCircleIcon,
-  BrainCircuitIcon,
-  LayersIcon,
-  GitBranchIcon,
-  ChevronRightIcon,
-} from "lucide-react";
+  getTopicsWithStatus,
+  initializeTopics,
+  updateTopicStatus,
+} from "@/actions/js-mastery";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
-export default function JSMastery() {
+interface Topic {
+  id: number;
+  topic: string;
+  description: string;
+  difficulty: string;
+  month: string;
+  status: string;
+}
+
+export function InitializeButton() {
   return (
-    <div className="min-h-screen bg-slate-50 p-6">
-      <div className=" mx-auto space-y-8">
-        {/* Header Section */}
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-4xl font-bold">JavaScript Mastery</h1>
-            <p className="text-muted-foreground mt-2">
-              Your journey to JavaScript excellence
-            </p>
-          </div>
-          <div className="hidden md:flex items-center gap-4">
-            <Badge variant="secondary" className="px-4 py-2">
-              Level: Intermediate
-            </Badge>
-            <Button>Continue Learning</Button>
-          </div>
-        </div>
+    <form action={initializeTopics}>
+      <button type="submit">Initialize Topics</button>
+    </form>
+  );
+}
 
-        {/* Stats Row */}
-        <div className=" max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            {
-              title: "Progress",
-              value: "33%",
-              icon: <LayersIcon className="h-5 w-5" />,
-              detail: "4 of 12 modules",
-            },
-            {
-              title: "Practice",
-              value: "56%",
-              icon: <CodeIcon className="h-5 w-5" />,
-              detail: "28 of 50 problems",
-            },
-            {
-              title: "Projects",
-              value: "3",
-              icon: <GitBranchIcon className="h-5 w-5" />,
-              detail: "Completed",
-            },
-            {
-              title: "Mastery",
-              value: "Mid",
-              icon: <BrainCircuitIcon className="h-5 w-5" />,
-              detail: "Intermediate",
-            },
-          ].map((stat, index) => (
-            <Card key={index} className="bg-white">
-              <CardContent className="pt-6">
-                <div className="flex items-center gap-4">
-                  <div className="p-3 rounded-lg bg-slate-100">{stat.icon}</div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">
-                      {stat.title}
-                    </p>
-                    <p className="text-2xl font-bold">{stat.value}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {stat.detail}
-                    </p>
-                  </div>
+export default async function JSKanban() {
+  const topics = await getTopicsWithStatus();
+
+  const todoTopics = topics.filter((t) => t.status === "todo");
+  const inProgressTopics = topics.filter((t) => t.status === "in-progress");
+  const completedTopics = topics.filter((t) => t.status === "completed");
+
+  const getDifficultyColor = (difficulty: string) => {
+    switch (difficulty) {
+      case "intermediate":
+        return "bg-blue-100 text-blue-800";
+      case "advanced":
+        return "bg-purple-100 text-purple-800";
+      case "expert":
+        return "bg-red-100 text-red-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
+
+  const renderColumn = (title: string, items: Topic[]) => (
+    <div className="flex-1 min-w-[300px] bg-slate-100 rounded-lg p-4">
+      <h3 className="font-semibold mb-4">
+        {title} ({items.length})
+      </h3>
+      <div className="space-y-3">
+        {items.map((topic) => (
+          <Card key={topic.id} className="bg-white">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between mb-2">
+                <div className="space-y-1">
+                  <h4 className="font-medium">{topic.topic}</h4>
+                  <p className="text-xs text-muted-foreground">{topic.month}</p>
                 </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {/* Main Content */}
-        <div className=" max-w-7xl mx-auto grid md:grid-cols-3 gap-6">
-          {/* Current Module */}
-          <Card className="md:col-span-2">
-            <CardHeader>
-              <CardTitle>Advanced Functions</CardTitle>
-              <p className="text-sm text-muted-foreground">
-                Current Module Progress
-              </p>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid grid-cols-2 gap-4">
-                {[
-                  "Closures",
-                  "Higher-Order Functions",
-                  "Function Composition",
-                  "Currying",
-                ].map((topic, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-2 p-3 rounded-lg bg-slate-100"
-                  >
-                    <CheckCircleIcon className="h-4 w-4 text-green-500" />
-                    <span className="text-sm font-medium">{topic}</span>
-                  </div>
-                ))}
+                <Badge
+                  variant="outline"
+                  className={getDifficultyColor(topic.difficulty)}
+                >
+                  {topic.difficulty}
+                </Badge>
               </div>
-
-              <div className="border-t pt-4">
-                <h3 className="font-semibold mb-3">Key Concepts</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  {[
-                    "Understanding lexical scope",
-                    "Function as first-class citizens",
-                    "Pure functions and side effects",
-                    "Functional programming patterns",
-                  ].map((concept, index) => (
-                    <div key={index} className="flex items-center gap-2">
-                      <ChevronRightIcon className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-sm">{concept}</span>
-                    </div>
-                  ))}
-                </div>
+              <p className="text-sm text-muted-foreground">
+                {topic.description}
+              </p>
+              <div className="flex gap-2 mt-3">
+                {topic.status !== "todo" && (
+                  <form
+                    action={async () => {
+                      "use server";
+                      await updateTopicStatus(topic.id, "todo");
+                    }}
+                  >
+                    <button className="text-sm text-blue-600 hover:text-blue-800">
+                      ← Move to Todo
+                    </button>
+                  </form>
+                )}
+                {topic.status !== "in-progress" && (
+                  <form
+                    action={async () => {
+                      "use server";
+                      await updateTopicStatus(topic.id, "in-progress");
+                    }}
+                  >
+                    <button className="text-sm text-purple-600 hover:text-purple-800">
+                      Move to In Progress
+                    </button>
+                  </form>
+                )}
+                {topic.status !== "completed" && (
+                  <form
+                    action={async () => {
+                      "use server";
+                      await updateTopicStatus(topic.id, "completed");
+                    }}
+                  >
+                    <button className="text-sm text-green-600 hover:text-green-800">
+                      Move to Completed →
+                    </button>
+                  </form>
+                )}
               </div>
             </CardContent>
           </Card>
+        ))}
+      </div>
+    </div>
+  );
 
-          {/* Side Panel */}
-          <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base">Learning Resources</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {[
-                  { icon: <BookOpenIcon />, label: "Documentation" },
-                  { icon: <CodeIcon />, label: "Practice Problems" },
-                  { icon: <GraduationCapIcon />, label: "Video Tutorials" },
-                ].map((resource, index) => (
-                  <Button
-                    key={index}
-                    variant="outline"
-                    className="w-full justify-start gap-2"
-                  >
-                    {resource.icon}
-                    {resource.label}
-                  </Button>
-                ))}
-              </CardContent>
-            </Card>
+  return (
+    <div className="min-h-screen bg-slate-50 p-6">
+      <div className="max-w-7xl mx-auto space-y-6">
+        <div className="space-y-2">
+          <h1 className="text-3xl font-bold">JavaScript Learning Path</h1>
+          {/* <InitializeButton /> */}
+          <p className="text-muted-foreground">
+            Track your progress through advanced JavaScript concepts
+          </p>
+        </div>
 
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base">Learning Path</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="space-y-2">
-                  <p className="text-sm font-medium">Prerequisites</p>
-                  <div className="space-y-1">
-                    {[
-                      "Basic JavaScript Syntax",
-                      "ES6+ Features",
-                      "DOM Manipulation",
-                    ].map((item, index) => (
-                      <Badge
-                        key={index}
-                        variant="secondary"
-                        className="w-full justify-start"
-                      >
-                        {item}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <p className="text-sm font-medium">Next Steps</p>
-                  <div className="space-y-1">
-                    {["Async Programming", "Design Patterns", "Testing"].map(
-                      (item, index) => (
-                        <Badge
-                          key={index}
-                          variant="outline"
-                          className="w-full justify-start"
-                        >
-                          {item}
-                        </Badge>
-                      )
-                    )}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+        <div className="flex gap-6 overflow-x-auto pb-6">
+          {renderColumn("To Learn", todoTopics)}
+          {renderColumn("In Progress", inProgressTopics)}
+          {renderColumn("Completed", completedTopics)}
         </div>
       </div>
     </div>
