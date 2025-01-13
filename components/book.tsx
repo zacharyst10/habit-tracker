@@ -59,7 +59,7 @@ export function Book({ book, isRead }: BookProps) {
             <Check className="mr-2 h-4 w-4" /> Mark as Read
           </Button>
         )}
-        <DeleteBook bookId={book.id} />
+        <DeleteBook bookId={book.id} title={book.title} />
       </CardFooter>
     </Card>
   );
