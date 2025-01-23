@@ -11,6 +11,7 @@ import {
   SnowflakeIcon,
 } from "lucide-react";
 import { ActivityModal } from "./activity-modal";
+import { scheduleActivity } from "@/actions/super-satur-daddy-day";
 
 interface Activity {
   name: string;
@@ -106,14 +107,7 @@ const activities = [
   },
 ];
 
-interface SpecialActivitiesProps {
-  // eslint-disable-next-line no-unused-vars
-  onActivityScheduled: (activity: Activity, date: Date, kid: string) => void;
-}
-
-export function SpecialActivities({
-  onActivityScheduled,
-}: SpecialActivitiesProps) {
+export function SpecialActivities() {
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(
     null
   );
@@ -124,9 +118,13 @@ export function SpecialActivities({
     setIsModalOpen(true);
   };
 
-  const handleSaveActivity = (date: Date, kid: string) => {
+  const handleSaveActivity = async (date: Date, kid: string) => {
     if (selectedActivity) {
-      onActivityScheduled(selectedActivity, date, kid);
+      await scheduleActivity(
+        selectedActivity.name,
+        date.toISOString().split("T")[0],
+        kid
+      );
     }
     setIsModalOpen(false);
   };

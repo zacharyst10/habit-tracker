@@ -4,8 +4,10 @@ import React from "react";
 import { Badge } from "@/components/ui/badge";
 import { ClockIcon, SparklesIcon } from "lucide-react";
 import { ActivityDashboard } from "@/components/activity-dashboard";
+import { getNextActivity } from "@/actions/super-satur-daddy-day";
 
-export default function ActivityRoute() {
+export default async function ActivityRoute() {
+  const nextActivity = await getNextActivity();
   return (
     <div className="p-6 relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
@@ -33,7 +35,7 @@ export default function ActivityRoute() {
           </div>
         </div>
 
-        <ActivityDashboard />
+        <ActivityDashboard nextActivity={nextActivity} />
       </div>
     </div>
   );
