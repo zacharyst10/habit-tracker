@@ -29,7 +29,7 @@ export interface LoggedDay {
 }
 
 const formatCurrentDate = () => {
-  return new Date().toLocaleDateString("en-US", {
+  return new Date().toLocaleString("en-US", {
     weekday: "long",
     month: "long",
     day: "numeric",
@@ -74,9 +74,7 @@ export default async function FoodPrep() {
           <Card className="lg:col-span-2 bg-gradient-to-br from-primary to-muted text-white border-none shadow-md">
             <CardContent className="p-8">
               <div className="flex items-center justify-between mb-8">
-                <h2 className="text-2xl font-bold">
-                  Daily Progress for - {formatCurrentDate()}
-                </h2>
+                <h2 className="text-2xl font-bold">{formatCurrentDate()}</h2>
                 <Select defaultValue="daily">
                   <SelectTrigger className="w-[120px] bg-white/10 border-white/20 text-white">
                     <SelectValue placeholder="Select view" />
@@ -88,7 +86,7 @@ export default async function FoodPrep() {
                   </SelectContent>
                 </Select>
               </div>
-              <div className="grid grid-cols-2 gap-8">
+              <div className="grid grid-cols-3 gap-8">
                 <div>
                   <p className="text-white/80 mb-2">Current Progress</p>
                   <div className="text-5xl font-bold mb-4">{todayTotal}g</div>
@@ -100,10 +98,14 @@ export default async function FoodPrep() {
                 <div>
                   <p className="text-white/80 mb-2">Daily Goal</p>
                   <div className="text-5xl font-bold">{currentGoal}g</div>
-                  <p className="text-white/60 mt-4">
-                    {((todayTotal / currentGoal) * 100).toFixed(1)}% of daily
-                    goal
+                </div>
+                <div>
+                  <p className="text-white/80 mb-2">
+                    Amount left to reach goal
                   </p>
+                  <div className="text-5xl font-bold">
+                    {currentGoal - todayTotal}g
+                  </div>
                 </div>
               </div>
             </CardContent>

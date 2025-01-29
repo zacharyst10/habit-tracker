@@ -172,3 +172,47 @@ export async function deleteProteinEntry(
     message: "Entry deleted successfully",
   };
 }
+
+export async function editProteinEntry(
+  _prevState: { success: boolean; message: string } | null,
+  formData: FormData
+) {
+  const sql = neon(`${process.env.DATABASE_URL}`);
+  const entryId = formData.get("entryId");
+  const amount = formData.get("amount");
+
+  if (!entryId) {
+    return {
+      success: false,
+      message: "No entry ID provided",
+    };
+  }
+
+  if (!amount || isNaN(Number(amount))) {
+    return {
+      success: false,
+      message: "Please check that your input is a number",
+    };
+  }
+
+  try {
+    await sql`
+      UPDATE daily_protein_tracking
+      SET protein_amount = ${Number(amount)}
+      WHERE id = ${Number(entryId)}
+    `;
+
+    revalidatePath("/food-prep");
+
+    return {
+      success: true,
+      message: "Protein entry updated successfully",
+    };
+  } catch (error) {
+    console.error("Error updating protein entry:", error);
+    return {
+      success: false,
+      message: "Failed to update protein entry",
+    };
+  }
+}
